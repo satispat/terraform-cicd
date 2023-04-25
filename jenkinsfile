@@ -10,7 +10,7 @@ pipeline {
     stages {
         stage('ContinuousDownload') {
             steps {
-                git branch: 'main', credentialsId: 'git_creds', url: 'https://github.com/cafe-11/terraform.git'
+                git branch: 'main', url: 'https://github.com/satispat/terraform-cicd'
             }
         }
         stage('Init') {
