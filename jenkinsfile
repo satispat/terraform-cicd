@@ -1,0 +1,32 @@
+pipeline {
+    agent any
+    environment {
+        AWS_ACCESS_KEY_ID        = credentials('AWS_ACCESS_KEY_ID')
+        AWS_SECRET_ACCESS_KEY    = credentials('AWS_SECRET_ACCESS_KEY')
+    }
+    tools {
+        terraform 'Terraform'
+    }
+    stages {
+        stage('ContinuousDownload') {
+            steps {
+                git branch: 'main', credentialsId: 'git_creds', url: 'https://github.com/cafe-11/terraform.git'
+            }
+        }
+        stage('Init') {
+            steps {
+                sh 'terraform init'
+            }
+        }
+        stage('plan') {
+            steps {
+                sh 'terraform plan'
+            }
+        }
+        stage('Action') {
+            steps {
+                sh 'terraform ${Action} --auto-approve'
+            }
+        }
+    }
+}
